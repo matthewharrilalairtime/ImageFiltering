@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C28A1BA242BDB1000913373 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C28A1B9242BDB1000913373 /* ImagePickerViewController.swift */; };
 		1C8D1EBA242B50A80039E7BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D1EB9242B50A80039E7BE /* AppDelegate.swift */; };
 		1C8D1EBC242B50A80039E7BE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D1EBB242B50A80039E7BE /* SceneDelegate.swift */; };
 		1C8D1EBE242B50A80039E7BE /* FilterImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D1EBD242B50A80039E7BE /* FilterImageViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C28A1B9242BDB1000913373 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 		1C8D1EB6242B50A80039E7BE /* ImageFiltering.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFiltering.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C8D1EB9242B50A80039E7BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C8D1EBB242B50A80039E7BE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				1C8D1EC4242B50AB0039E7BE /* LaunchScreen.storyboard */,
 				1C8D1EC7242B50AB0039E7BE /* Info.plist */,
 				1C8D1ECD242B567F0039E7BE /* FilteredImageCollectionViewCell.swift */,
+				1C28A1B9242BDB1000913373 /* ImagePickerViewController.swift */,
 			);
 			path = ImageFiltering;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C8D1EBE242B50A80039E7BE /* FilterImageViewController.swift in Sources */,
+				1C28A1BA242BDB1000913373 /* ImagePickerViewController.swift in Sources */,
 				1C8D1ECE242B567F0039E7BE /* FilteredImageCollectionViewCell.swift in Sources */,
 				1C8D1EBA242B50A80039E7BE /* AppDelegate.swift in Sources */,
 				1C8D1EBC242B50A80039E7BE /* SceneDelegate.swift in Sources */,
