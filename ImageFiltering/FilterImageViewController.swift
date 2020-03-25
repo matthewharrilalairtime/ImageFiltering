@@ -10,11 +10,15 @@ import UIKit
 import CoreImage
 import CoreImage.CIFilterBuiltins
 
-class FilterImageViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class FilterImageViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ImagePickerDelegate {
 
     private let filterDataSource: [CIFilter] = [.discBlur(), .vignette(), .sepiaTone(), .vibrance(), .gloom(), .gaussianBlur(), .unsharpMask()]
 
     private var shouldChainFilters: Bool = false
+
+    private var currentImage: UIImage?
+
+    private var imagePicker: ImagePicker!
 
     private lazy var imageView: UIImageView = {
         let v = UIImageView(frame: CGRect.zero)
@@ -28,6 +32,15 @@ class FilterImageViewController: UIViewController, UICollectionViewDelegate, UIC
         let v = UIButton(type: .custom)
         v.setTitle("Chain Filters", for: .normal)
         v.backgroundColor = .green
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.layer.cornerRadius = 10
+        return v
+    }()
+
+    private lazy var galleryButton: UIButton = {
+        let v = UIButton(type: .custom)
+        v.setTitle("Gallery", for: .normal)
+        v.backgroundColor = .red
         v.translatesAutoresizingMaskIntoConstraints = false
         v.layer.cornerRadius = 10
         return v
@@ -66,8 +79,13 @@ class FilterImageViewController: UIViewController, UICollectionViewDelegate, UIC
         view.addSubview(imageView)
         view.addSubview(collectionView)
         view.addSubview(chainFiltersButton)
+        view.addSubview(galleryButton)
 
         chainFiltersButton.addTarget(self, action: #selector(chainFiltersButtonAction), for: .touchUpInside)
+        galleryButton.addTarget(self, action: #selector(galleryButtonAction), for: .touchUpInside)
+
+        self.imagePicker = ImagePicker(presentationController: self, imagePickerDelegate: self)
+
         setupConstraints()
     }
 
@@ -83,22 +101,30 @@ class FilterImageViewController: UIViewController, UICollectionViewDelegate, UIC
             collectionView.heightAnchor.constraint(equalToConstant: 400),
 
             chainFiltersButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            chainFiltersButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            chainFiltersButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
             chainFiltersButton.widthAnchor.constraint(equalToConstant: 150),
-            chainFiltersButton.heightAnchor.constraint(equalToConstant: 100)
+            chainFiltersButton.heightAnchor.constraint(equalToConstant: 100),
+
+            galleryButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            galleryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
+            galleryButton.widthAnchor.constraint(equalToConstant: 150),
+            galleryButton.heightAnchor.constraint(equalToConstant: 100),
         ])
     }
 
     func applyFilter(filterName: String) {
         var ciImage: CIImage!
 
+        guard let filter = CIFilter(name: filterName) else { return }
+
         if let image = imageView.image, shouldChainFilters {
             ciImage = CIImage(image: image)
+        } else if let currentImage = currentImage {
+            ciImage = CIImage(image: currentImage)
         } else {
             ciImage = CIImage(image: UIImage(named: "airtime")!, options: [CIImageOption.applyOrientationProperty : true])
         }
 
-        guard let filter = CIFilter(name: filterName) else { return }
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         let filteredImage = filter.outputImage
 
@@ -132,6 +158,15 @@ class FilterImageViewController: UIViewController, UICollectionViewDelegate, UIC
         shouldChainFilters = !shouldChainFilters
         chainFiltersButton.backgroundColor = shouldChainFilters ? .red : .green
         chainFiltersButton.setTitle(shouldChainFilters ? "Chaining Filters" : "Chain Filters", for: .normal)
+    }
+
+    @objc private func galleryButtonAction(_ sender: UIButton) {
+        self.imagePicker.present(from: sender)
+    }
+
+    func didSelect(image: UIImage?) {
+        currentImage = image
+        self.imageView.image = image
     }
 }
 
